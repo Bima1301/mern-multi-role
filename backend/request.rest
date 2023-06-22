@@ -1,0 +1,55 @@
+# Create a new user
+POST http://localhost:5000/user
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "john@gmail.com",
+    "password": "12345",
+    "confPassword": "12345",
+    "role": "user"
+}
+###
+# get all users
+GET http://localhost:5000/users
+
+###
+# get user by id
+GET http://localhost:5000/user/7dc16302-76d0-4f93-8a86-eeb689943b24
+
+
+###
+# update a new user
+PATCH http://localhost:5000/user/7dc16302-76d0-4f93-8a86-eeb689943b24
+Content-Type: application/json
+
+{
+    "name": "John Doe Updated",
+    "email": "john@gmail.com",
+    "password": "",
+    "confPassword": "",
+    "role": "user"
+}
+
+###
+# delete a user
+DELETE http://localhost:5000/user/7dc16302-76d0-4f93-8a86-eeb689943b24
+
+```
+###
+# login
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "bima@gmail.com",
+    "password": "12345"
+}
+
+###
+# get current user
+GET http://localhost:5000/me
+
+###
+# logout
+DELETE http://localhost:5000/logout
