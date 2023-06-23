@@ -3,11 +3,11 @@ POST http://localhost:5000/user
 Content-Type: application/json
 
 {
-    "name": "Yanuar Bima",
-    "email": "bima@gmail.com",
+    "name": "John Doe",
+    "email": "john@gmail.com",
     "password": "12345",
     "confPassword": "12345",
-    "role": "admin"
+    "role": "user"
 }
 ###
 # get all users
@@ -37,6 +37,9 @@ DELETE http://localhost:5000/user/7dc16302-76d0-4f93-8a86-eeb689943b24
 
 ```
 ###
+
+
+
 # login
 POST http://localhost:5000/login
 Content-Type: application/json
@@ -44,6 +47,18 @@ Content-Type: application/json
 {
     "email": "bima@gmail.com",
     "password": "12345"
+}
+
+###
+# register
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+    "name": "Yanuar Bima",
+    "email": "bima@gmail.com",
+    "password": "12345",
+    "confPassword": "12345"
 }
 
 ###

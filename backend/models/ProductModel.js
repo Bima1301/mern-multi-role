@@ -28,7 +28,6 @@ const Product = db.define(
       allowNull: false,
       validate: {
         notEmpty: true,
-        isEmail: true,
       },
     },
     userId: {
@@ -36,7 +35,6 @@ const Product = db.define(
       allowNull: false,
       validate: {
         notEmpty: true,
-        isEmail: true,
       },
     },
   },

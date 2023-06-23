@@ -24,6 +24,24 @@ export const Login = async (req, res) => {
     role,
   });
 };
+export const Register = async (req, res) => {
+  const { name, email, password, confPassword } = req.body;
+  if (password !== confPassword) {
+    res.status(400).json({ message: "Password not match" });
+  }
+  const hashPassword = await argon2.hash(password);
+  try {
+    await User.create({
+      name: name,
+      email: email,
+      password: hashPassword,
+      role: "user",
+    });
+    res.status(201).json({ message: "Register successfully" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 
 export const Me = async (req, res) => {
   if (!req.session.userId) {
