@@ -6,7 +6,7 @@ import db from "./config/Database.js";
 import SequelizeStore from "connect-session-sequelize";
 
 import ProductRoute from "./routes/ProductRoute.js";
-import UserRoute from "./routes/UserRoute.js";
+import UserRoute from "./routes/userRoute.js";
 import AuthRoute from "./routes/AuthRoute.js";
 
 dotenv.config();
@@ -20,6 +20,11 @@ const store = new sessionStore({
 
 // (async () => {
 //   await db.sync();
+// })();
+
+// remigrate
+// (async () => {
+//   await db.sync({ force: true });
 // })();
 
 app.use(
