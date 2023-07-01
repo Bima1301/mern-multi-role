@@ -1,19 +1,18 @@
 import React from "react";
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import Logo from "../assets/logo.png";
+import { NavLink } from "react-router-dom";
 const Navigation = () => {
   return (
-    <Navbar fluid rounded>
-      <Navbar.Brand href="https://flowbite-react.com">
-        <img
-          alt="Flowbite React Logo"
-          className="mr-3 h-6 sm:h-9"
-          src={Logo}
-        />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-          VI Apps
-        </span>
-      </Navbar.Brand>
+    <Navbar fluid rounded >
+      <NavLink to={"/"}>
+        <Navbar.Brand>
+          <img alt="Logo" className="mr-3 h-6 sm:h-9" src={Logo} />
+          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+            VI Apps
+          </span>
+        </Navbar.Brand>
+      </NavLink>
       <div className="flex md:order-2">
         <Dropdown
           inline
@@ -31,7 +30,14 @@ const Navigation = () => {
               name@flowbite.com
             </span>
           </Dropdown.Header>
-          <Dropdown.Item>Dashboard</Dropdown.Item>
+          <Dropdown.Item>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <NavLink to={"/users"}>
+              <span>Users</span>
+            </NavLink>
+          </Dropdown.Item>
           <Dropdown.Item>Settings</Dropdown.Item>
           <Dropdown.Item>Earnings</Dropdown.Item>
           <Dropdown.Divider />
@@ -43,7 +49,7 @@ const Navigation = () => {
         <Navbar.Link active href="#">
           <p>Home</p>
         </Navbar.Link>
-        <Navbar.Link href="#">About</Navbar.Link>
+        <NavLink to={"/products"}>Product</NavLink>
         <Navbar.Link href="#">Services</Navbar.Link>
         <Navbar.Link href="#">Pricing</Navbar.Link>
         <Navbar.Link href="#">Contact</Navbar.Link>
