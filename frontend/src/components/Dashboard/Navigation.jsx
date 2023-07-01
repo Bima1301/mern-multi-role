@@ -1,10 +1,36 @@
-import React from "react";
-import { Avatar, Dropdown, Navbar } from "flowbite-react";
-import Logo from "../assets/logo.png";
+import React, { useEffect, useState } from "react";
+import {
+  Avatar,
+  Button,
+  DarkThemeToggle,
+  Dropdown,
+  Navbar,
+} from "flowbite-react";
+import Logo from "../../assets/logo.png";
 import { NavLink } from "react-router-dom";
+import { BsMoon, BsSun } from "react-icons/bs";
 const Navigation = () => {
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedDarkMode = localStorage.getItem("darkMode");
+    return savedDarkMode ? JSON.parse(savedDarkMode) : false;
+  });
+
+  useEffect(() => {
+    const htmlElement = document.querySelector("html");
+    if (darkMode) {
+      htmlElement.classList.add("dark");
+    } else {
+      htmlElement.classList.remove("dark");
+    }
+
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+  }, [darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
   return (
-    <Navbar fluid rounded >
+    <Navbar fluid className="shadow-md sticky top-0">
       <NavLink to={"/"}>
         <Navbar.Brand>
           <img alt="Logo" className="mr-3 h-6 sm:h-9" src={Logo} />
@@ -14,14 +40,22 @@ const Navigation = () => {
         </Navbar.Brand>
       </NavLink>
       <div className="flex md:order-2">
+        <button
+          className={`${darkMode && "text-white"} mr-4 px-2`}
+          onClick={toggleDarkMode}
+        >
+          {darkMode ? <BsSun /> : <BsMoon />}
+        </button>
         <Dropdown
           inline
           label={
-            <Avatar
-              alt="User settings"
-              img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              rounded
-            />
+            <>
+              <Avatar
+                alt="User settings"
+                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                rounded
+              />
+            </>
           }
         >
           <Dropdown.Header>
@@ -49,7 +83,6 @@ const Navigation = () => {
         <Navbar.Link active href="#">
           <p>Home</p>
         </Navbar.Link>
-        <NavLink to={"/products"}>Product</NavLink>
         <Navbar.Link href="#">Services</Navbar.Link>
         <Navbar.Link href="#">Pricing</Navbar.Link>
         <Navbar.Link href="#">Contact</Navbar.Link>
