@@ -8,7 +8,10 @@ export default {
   ],
   theme: {
     container: {
-      padding: "2rem",
+      padding: {
+        DEFAULT: "2rem",
+        md: "10rem",
+      },
     },
   },
   plugins: [require("flowbite/plugin")],

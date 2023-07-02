@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
   return (
     <React.Fragment>
       <Navigation />
-      <main className="dark:bg-slate-600 bg-white transition-background">
+      <main className="dark:bg-slate-600 bg-slate-200 transition-background">
         <div className="container min-h-full min-w-full py-4">{children}</div>
       </main>
       <FooterBottom />

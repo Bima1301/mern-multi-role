@@ -16,7 +16,7 @@ const HeadlineTitle = () => {
     setHeadline(values);
   };
   return (
-    <div className="p-10 rounded-lg border dark:border-slate-400 my-5 w-1/3">
+    <div className="p-10 rounded-lg border dark:border-slate-400 my-5 md:w-1/3 w-full">
       <p className="text-2xl font-bold dark:text-white mb-5">
         Set Your Headline Title
       </p>

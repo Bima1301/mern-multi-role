@@ -1,21 +1,23 @@
 "use client";
 
-import { Footer } from "flowbite-react";
+import { Footer, Navbar } from "flowbite-react";
 import { BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
+import Logo from "../../assets/logo.png";
+import { NavLink } from "react-router-dom";
 
 export default function FooterBottom() {
   return (
     <Footer container className="rounded-none transition-background">
       <div className="w-full">
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
-          <div>
-            <Footer.Brand
-              alt="Flowbite Logo"
-              href="https://flowbite.com"
-              name="Flowbite"
-              src="https://flowbite.com/docs/images/logo.svg"
-            />
-          </div>
+          <NavLink to={"/"}>
+            <Navbar.Brand>
+              <img alt="Logo" className="mr-3 h-6 sm:h-9" src={Logo} />
+              <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+                VI Apps
+              </span>
+            </Navbar.Brand>
+          </NavLink>
           <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
             <div>
               <Footer.Title title="about" />

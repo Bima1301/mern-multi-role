@@ -65,25 +65,23 @@ const Navigation = () => {
             </span>
           </Dropdown.Header>
           <Dropdown.Item>
-            <NavLink to="/dashboard">Dashboard</NavLink>
-          </Dropdown.Item>
-          <Dropdown.Item>
-            <NavLink to={"/users"}>
+            <NavLink to={"/dashboard/users"}>
               <span>Users</span>
             </NavLink>
           </Dropdown.Item>
           <Dropdown.Item>Settings</Dropdown.Item>
-          <Dropdown.Item>Earnings</Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item>Sign out</Dropdown.Item>
         </Dropdown>
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link active href="#">
-          <p>Home</p>
+        <Navbar.Link>
+          <NavLink to="/dashboard">Home</NavLink>
         </Navbar.Link>
-        <Navbar.Link href="#">Services</Navbar.Link>
+        <Navbar.Link>
+          <NavLink to="/dashboard/about">About</NavLink>
+        </Navbar.Link>
         <Navbar.Link href="#">Pricing</Navbar.Link>
         <Navbar.Link href="#">Contact</Navbar.Link>
       </Navbar.Collapse>
