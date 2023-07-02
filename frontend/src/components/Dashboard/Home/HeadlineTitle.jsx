@@ -16,7 +16,7 @@ const HeadlineTitle = () => {
     setHeadline(values);
   };
   return (
-    <div className="p-10 rounded-lg border dark:border-slate-400 my-5">
+    <div className="p-10 rounded-lg border dark:border-slate-400 my-5 w-1/3">
       <p className="text-2xl font-bold dark:text-white mb-5">
         Set Your Headline Title
       </p>
@@ -38,7 +38,7 @@ const HeadlineTitle = () => {
               )}
             </div>
             <TextInput
-              className="transition-background" 
+              className="transition-background"
               id="headline"
               name="headline"
               value={item.headline}
@@ -47,7 +47,7 @@ const HeadlineTitle = () => {
                 values[index].headline = e.target.value;
                 setHeadline(values);
               }}
-              placeholder="Write your headline"
+              placeholder="Ex. : Web developer , UX designer"
               required
               type="email"
             />
