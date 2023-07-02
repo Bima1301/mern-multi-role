@@ -5,7 +5,7 @@ import { BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
 
 export default function FooterBottom() {
   return (
-    <Footer container className="rounded-none">
+    <Footer container className="rounded-none transition-background">
       <div className="w-full">
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
           <div>

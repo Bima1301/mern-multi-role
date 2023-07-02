@@ -30,7 +30,7 @@ const Navigation = () => {
     setDarkMode(!darkMode);
   };
   return (
-    <Navbar fluid className="shadow-md sticky top-0">
+    <Navbar fluid className="shadow-md sticky top-0 transition-background">
       <NavLink to={"/"}>
         <Navbar.Brand>
           <img alt="Logo" className="mr-3 h-6 sm:h-9" src={Logo} />

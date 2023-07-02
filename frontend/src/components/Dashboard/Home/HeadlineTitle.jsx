@@ -38,6 +38,7 @@ const HeadlineTitle = () => {
               )}
             </div>
             <TextInput
+              className="transition-background" 
               id="headline"
               name="headline"
               value={item.headline}
