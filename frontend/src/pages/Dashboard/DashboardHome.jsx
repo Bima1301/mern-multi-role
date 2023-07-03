@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
 import HeadlineTitle from "../../components/Dashboard/Home/HeadlineTitle";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getMe } from "../../features/authSlice.js";
 
-const Home = () => {
+const DashboardHome = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/");
+    }
+  }, [isError, navigate]);
   return (
     <Layout>
       <div className="min-w-full mb-20">
@@ -66,4 +82,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default DashboardHome;

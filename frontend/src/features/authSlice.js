@@ -11,9 +11,9 @@ const initialState = {
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
-  async (data, thunkApi) => {
+  async (user, thunkApi) => {
     try {
-      const response = await axios.post(process.env.APP_URL + "/login", {
+      const response = await axios.post("http://localhost:5000/login", {
         email: user.email,
         password: user.password,
       });
@@ -26,6 +26,22 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
+export const getMe = createAsyncThunk("user/getMe", async (_, thunkApi) => {
+  try {
+    const response = await axios.get("http://localhost:5000/me");
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      const message = error.response.data.message;
+      return thunkApi.rejectWithValue({ message });
+    }
+  }
+});
+
+export const logOut = createAsyncThunk("user/logOut", async (_, thunkApi) => {
+  await axios.delete("http://localhost:5000/logout");
+});
 
 export const authSlice = createSlice({
   name: "auth",
@@ -43,6 +59,21 @@ export const authSlice = createSlice({
       state.user = action.payload;
     });
     builder.addCase(loginUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+    });
+
+    // GET USER LOGIN
+    builder.addCase(getMe.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getMe.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.user = action.payload;
+    });
+    builder.addCase(getMe.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
