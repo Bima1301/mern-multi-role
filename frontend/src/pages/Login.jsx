@@ -1,9 +1,16 @@
-import { Button, Checkbox, Label, Navbar, TextInput } from "flowbite-react";
+import {
+  Button,
+  Checkbox,
+  Label,
+  Navbar,
+  Spinner,
+  TextInput,
+} from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import Logo from "../assets/logo.png";
-import { loginUser, reset } from "../features/authSlice";
+import { LoginUser, reset } from "../features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [login, setLogin] = useState({
@@ -24,7 +31,7 @@ const Login = () => {
 
   const handleAuth = (e) => {
     e.preventDefault();
-    dispatch(loginUser(login));
+    dispatch(LoginUser(login));
   };
   const { message: errorMessage } = message;
   return (
@@ -60,7 +67,7 @@ const Login = () => {
               {isError && (
                 <div
                   id="alert-border-2"
-                  className="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
+                  className="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 "
                   role="alert"
                 >
                   <svg
@@ -82,7 +89,7 @@ const Login = () => {
                   <button
                     disabled={isLoading}
                     type="button"
-                    className="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                    className="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8"
                     onClick={() => dispatch(reset())}
                     aria-label="Close"
                   >
@@ -191,20 +198,25 @@ const Login = () => {
                 <button
                   type="submit"
                   className="flex items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-600 hover:bg-blue-700 rounded py-2 w-full transition duration-150 ease-in"
+                  disabled={isLoading}
                 >
                   <span className="mr-2 uppercase">Login</span>
                   <span>
-                    <svg
-                      className="h-6 w-6"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                    {isLoading ? (
+                      <Spinner color={"gray"} />
+                    ) : (
+                      <svg
+                        className="h-6 w-6"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    )}
                   </span>
                 </button>
               </div>

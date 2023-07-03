@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../Layout";
 import { Label, TextInput } from "flowbite-react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getMe } from "../../../../features/authSlice";
 
 const EditUser = () => {
   const [data, setData] = React.useState({
@@ -12,6 +15,23 @@ const EditUser = () => {
     const password = Math.random().toString(36).slice(-8);
     setData({ ...data, password: password });
   };
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isError, user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/");
+    }
+    if (user && user.role !== "admin") {
+      navigate("/dashboard");
+    }
+  }, [isError, navigate, user]);
   return (
     <Layout>
       <div className="min-w-full mb-20">

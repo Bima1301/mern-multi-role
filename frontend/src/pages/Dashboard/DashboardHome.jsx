@@ -7,19 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { getMe } from "../../features/authSlice.js";
 
 const DashboardHome = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isError } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/");
-    }
-  }, [isError, navigate]);
+  const { user } = useSelector((state) => state.auth);
   return (
     <Layout>
       <div className="min-w-full mb-20">

@@ -7,28 +7,24 @@ import {
   Navbar,
 } from "flowbite-react";
 import Logo from "../../assets/logo.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { BsMoon, BsSun } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { LogOut, reset } from "../../features/authSlice.js";
+import DarkModeButton from "../DarkModeButton";
 const Navigation = () => {
-  const [darkMode, setDarkMode] = useState(() => {
-    const savedDarkMode = localStorage.getItem("darkMode");
-    return savedDarkMode ? JSON.parse(savedDarkMode) : false;
-  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const location = useLocation();
+  console.log("location", location);
 
-  useEffect(() => {
-    const htmlElement = document.querySelector("html");
-    if (darkMode) {
-      htmlElement.classList.add("dark");
-    } else {
-      htmlElement.classList.remove("dark");
-    }
+  function handleLogout() {
+    dispatch(LogOut());
+    dispatch(reset());
+    navigate("/");
+  }
 
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
   return (
     <Navbar fluid className="shadow-md sticky top-0 transition-background">
       <NavLink to={"/"}>
@@ -40,12 +36,7 @@ const Navigation = () => {
         </Navbar.Brand>
       </NavLink>
       <div className="flex md:order-2">
-        <button
-          className={`${darkMode && "text-white"} mr-4 px-2`}
-          onClick={toggleDarkMode}
-        >
-          {darkMode ? <BsSun /> : <BsMoon />}
-        </button>
+        <DarkModeButton />
         <Dropdown
           inline
           label={
@@ -59,27 +50,29 @@ const Navigation = () => {
           }
         >
           <Dropdown.Header>
-            <span className="block text-sm">Bonnie Green</span>
+            <span className="block text-sm">{user?.data.name}</span>
             <span className="block truncate text-sm font-medium">
-              name@flowbite.com
+              {user?.data.email}
             </span>
           </Dropdown.Header>
-          <Dropdown.Item>
+          {user?.data.role === "admin" && (
             <NavLink to={"/dashboard/users"}>
-              <span>Users</span>
+              <Dropdown.Item>
+                <span>Users</span>
+              </Dropdown.Item>
             </NavLink>
-          </Dropdown.Item>
+          )}
           <Dropdown.Item>Settings</Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item>Sign out</Dropdown.Item>
+          <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
         </Dropdown>
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link>
+        <Navbar.Link active={location.pathname === "/dashboard"}>
           <NavLink to="/dashboard">Home</NavLink>
         </Navbar.Link>
-        <Navbar.Link>
+        <Navbar.Link active={location.pathname === "/dashboard/about"}>
           <NavLink to="/dashboard/about">About</NavLink>
         </Navbar.Link>
         <Navbar.Link href="#">Pricing</Navbar.Link>

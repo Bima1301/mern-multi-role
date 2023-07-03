@@ -36,7 +36,7 @@ const About = () => {
               </button>
             </div>
           </div>
-          <div className="md:py-6 md:px-10 p-5 rounded-lg border dark:border-slate-400 md:w-1/2 w-full">
+          <div className="md:py-9 md:px-10 p-5 rounded-lg border dark:border-slate-400 md:w-1/2 w-full">
             <p className="text-2xl font-bold mb-5 dark:text-white">Biodata</p>
             <div className="flex md:flex-row md:justify-between md:gap-5 flex-col ">
               <div className="w-full">
