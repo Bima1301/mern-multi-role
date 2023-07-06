@@ -1,8 +1,10 @@
 import User from "../models/UserModel.js";
 import argon2 from "argon2";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 export const Login = async (req, res) => {
-  const user = await User.findOne({
+  const user = await prisma.user.findUnique({
     where: {
       email: req.body.email,
     },
@@ -31,13 +33,15 @@ export const Register = async (req, res) => {
   }
   const hashPassword = await argon2.hash(password);
   try {
-    await User.create({
-      name: name,
-      email: email,
-      password: hashPassword,
-      role: "user",
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashPassword,
+        roleId: 2,
+      },
     });
-    res.status(201).json({ message: "Register successfully" });
+    return res.status(201).json({ message: "Register successfully" });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -47,11 +51,19 @@ export const Me = async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ message: "Please login first" });
   }
-  const user = await User.findOne({
+  const user = await prisma.user.findUnique({
     where: {
       uuid: req.session.userId,
     },
-    attributes: ["uuid", "name", "email", "role"],
+    select: {
+      name: true,
+      email: true,
+      role: {
+        select: {
+          name: true,
+        },
+      },
+    },
   });
   if (!user) return res.status(404).json({ message: "User not found" });
   res.status(200).json({

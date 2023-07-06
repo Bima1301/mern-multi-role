@@ -7,7 +7,6 @@ Content-Type: application/json
     "email": "john@gmail.com",
     "password": "12345",
     "confPassword": "12345",
-    "role": "user"
 }
 ###
 # get all users
@@ -55,8 +54,8 @@ POST http://localhost:5000/register
 Content-Type: application/json
 
 {
-    "name": "Yanuar Bima",
-    "email": "bima@gmail.com",
+    "name": "Test",
+    "email": "test@gmail.com",
     "password": "12345",
     "confPassword": "12345"
 }

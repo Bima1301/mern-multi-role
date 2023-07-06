@@ -8,8 +8,10 @@ import SequelizeStore from "connect-session-sequelize";
 import ProductRoute from "./routes/ProductRoute.js";
 import UserRoute from "./routes/userRoute.js";
 import AuthRoute from "./routes/AuthRoute.js";
+import { PrismaClient } from "@prisma/client";
 
 dotenv.config();
+const prisma = new PrismaClient();
 
 const app = express();
 const sessionStore = SequelizeStore(session.Store);
@@ -17,16 +19,6 @@ const sessionStore = SequelizeStore(session.Store);
 const store = new sessionStore({
   db: db,
 });
-
-// (async () => {
-//   await db.sync();
-// })();
-
-// remigrate
-
-// (async () => {
-//   await db.sync({ force: true });
-// })();
 
 app.use(
   session({

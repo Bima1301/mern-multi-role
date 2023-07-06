@@ -17,7 +17,7 @@ const Navigation = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const location = useLocation();
-  console.log("location", location);
+  console.log({ user });
 
   function handleLogout() {
     dispatch(LogOut());
@@ -55,7 +55,7 @@ const Navigation = () => {
               {user?.data.email}
             </span>
           </Dropdown.Header>
-          {user?.data.role === "admin" && (
+          {user?.data.role.name === "admin" && (
             <NavLink to={"/dashboard/users"}>
               <Dropdown.Item>
                 <span>Users</span>

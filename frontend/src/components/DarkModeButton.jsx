@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
 
-const DarkModeButton = () => {
+const DarkModeButton = ({ className }) => {
   const [darkMode, setDarkMode] = useState(() => {
     const savedDarkMode = localStorage.getItem("darkMode");
     return savedDarkMode ? JSON.parse(savedDarkMode) : false;
@@ -23,7 +23,7 @@ const DarkModeButton = () => {
   };
   return (
     <button
-      className={`${darkMode && "text-white"} mr-4 px-2`}
+      className={`${darkMode && "text-white"} mr-4 px-2 ${className}`}
       onClick={toggleDarkMode}
     >
       {darkMode ? <BsSun /> : <BsMoon />}

@@ -1,10 +1,19 @@
 import User from "../models/UserModel.js";
 import argon2 from "argon2";
-
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 export const getUser = async (req, res) => {
   try {
-    const response = await User.findAll({
-      attributes: ["uuid", "name", "email", "role", "createdAt", "updatedAt"],
+    const response = await prisma.user.findMany({
+      select: {
+        uuid: true,
+        name: true,
+        email: true,
+        role: true,
+      },
+      orderBy: {
+        id: "asc",
+      },
     });
     res.status(200).json(response);
   } catch (error) {
@@ -13,9 +22,16 @@ export const getUser = async (req, res) => {
 };
 export const getUserById = async (req, res) => {
   try {
-    const response = await User.findOne({
-      where: { uuid: req.params.id },
-      attributes: ["uuid", "name", "email", "role", "createdAt", "updatedAt"],
+    const response = await prisma.user.findUnique({
+      where: {
+        uuid: req.params.id,
+      },
+      select: {
+        uuid: true,
+        name: true,
+        email: true,
+        role: true,
+      },
     });
     res.status(200).json(response);
   } catch (error) {
@@ -73,10 +89,14 @@ export const updateUser = async (req, res) => {
   }
 };
 export const deleteUser = async (req, res) => {
-  const user = await User.findOne({ where: { uuid: req.params.id } });
+  const user = await prisma.user.findUnique({
+    where: {
+      uuid: req.params.id,
+    },
+  });
   if (!user) res.status(404).json({ message: "User not found" });
   try {
-    await User.destroy({
+    await prisma.user.delete({
       where: {
         uuid: req.params.id,
       },

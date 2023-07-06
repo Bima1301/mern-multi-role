@@ -11,6 +11,7 @@ import Logo from "../assets/logo.png";
 import { LoginUser, reset } from "../features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
+import DarkModeButton from "../components/DarkModeButton";
 
 const Login = () => {
   const [login, setLogin] = useState({
@@ -41,23 +42,24 @@ const Login = () => {
         href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css"
       />
 
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300">
-        <div className="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300 dark:bg-gray-400">
+        <div className="flex flex-col bg-white dark:bg-gray-800 shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md relative">
+          <DarkModeButton className="absolute right-0 scale-110" />
           <div className="w-full flex justify-center">
             <img alt="Logo" className="mr-3 h-6 sm:h-9 scale-150" src={Logo} />
             <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
               VI Apps
             </span>
           </div>
-          <button className="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200 duration-100">
-            <span className="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500">
+          <button className="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200 duration-100 dark:text-white dark:bg-gray-600 dark:hover:bg-gray-500">
+            <span className="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500 dark:text-white ">
               <i className="fab fa-google"></i>
             </span>
             <span>Login with Google</span>
           </button>
-          <div className="relative mt-10 h-px bg-gray-300">
+          <div className="relative mt-10 h-px bg-gray-300 dark:bg-gray-600">
             <div className="absolute left-0 top-0 flex justify-center w-full -mt-2">
-              <span className="bg-white px-4 text-xs text-gray-500 uppercase">
+              <span className="bg-white dark:bg-gray-800 px-4 text-xs text-gray-500 uppercase dark:text-white">
                 Or Login With Email
               </span>
             </div>
@@ -113,7 +115,7 @@ const Login = () => {
               <div className="flex flex-col mb-6">
                 <label
                   htmlFor="email"
-                  className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
+                  className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600 dark:text-white"
                 >
                   E-Mail Address:
                 </label>
@@ -140,7 +142,7 @@ const Login = () => {
                     }
                     value={login.email}
                     name="email"
-                    className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
+                    className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400 dark:bg-gray-600 dark:text-white dark:placeholder-gray-300 dark:border-transparent"
                     placeholder="E-Mail Address"
                   />
                 </div>
@@ -148,7 +150,7 @@ const Login = () => {
               <div className="flex flex-col mb-6">
                 <label
                   htmlFor="password"
-                  className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
+                  className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600 dark:text-white"
                 >
                   Password:
                 </label>
@@ -177,7 +179,7 @@ const Login = () => {
                     }
                     value={login.password}
                     name="password"
-                    className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
+                    className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400 dark:bg-gray-600 dark:text-white dark:placeholder-gray-300 dark:border-transparent"
                     placeholder="Password"
                   />
                 </div>
@@ -187,7 +189,7 @@ const Login = () => {
                 <div className="flex ml-auto">
                   <a
                     href="#"
-                    className="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700"
+                    className="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700 dark:text-blue-200"
                   >
                     Forgot Your Password?
                   </a>

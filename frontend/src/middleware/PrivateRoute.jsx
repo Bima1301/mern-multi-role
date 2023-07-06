@@ -37,7 +37,7 @@ export const AdminRoute = () => {
   if (isLoading) {
     return <LoadingPage />;
   }
-  if (user && user.data.role !== "admin") {
+  if (user && user.data.role.name !== "admin") {
     return <Forbidden />;
   }
 
