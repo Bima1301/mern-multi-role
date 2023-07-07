@@ -45,7 +45,7 @@ const About = () => {
                     <Label htmlFor="contact" value="Age" />
                   </div>
                   <TextInput
-                    type="text"
+                    type="number"
                     id="age"
                     placeholder="Your age"
                     required

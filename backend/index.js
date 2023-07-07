@@ -4,8 +4,7 @@ import session from "express-session";
 import dotenv from "dotenv";
 import db from "./config/Database.js";
 import SequelizeStore from "connect-session-sequelize";
-
-import ProductRoute from "./routes/ProductRoute.js";
+import passport from "./config/Pasport.js";
 import UserRoute from "./routes/userRoute.js";
 import AuthRoute from "./routes/AuthRoute.js";
 import { PrismaClient } from "@prisma/client";
@@ -30,6 +29,9 @@ app.use(
   })
 );
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(
   cors({
     credentials: true,
@@ -38,10 +40,8 @@ app.use(
 );
 app.use(express.json());
 app.use(UserRoute);
-app.use(ProductRoute);
 app.use(AuthRoute);
 
-// store.sync();
 
 app.listen(process.env.APP_PORT, () => {
   console.log(`Server is running on port ${process.env.APP_PORT}...`);

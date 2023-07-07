@@ -14,7 +14,7 @@ export const PrivateRoute = () => {
   }, [dispatch]);
 
   if (isError) {
-    return <Navigate to="/dasboard/login" />;
+    return <Navigate to="/dashboard/login" />;
   }
   if (isLoading) {
     return <LoadingPage />;
@@ -32,7 +32,7 @@ export const AdminRoute = () => {
   }, [dispatch]);
 
   if (isError) {
-    return <Navigate to="/dasboard/login" />;
+    return <Navigate to="/dashboard/login" />;
   }
   if (isLoading) {
     return <LoadingPage />;

@@ -14,10 +14,33 @@ export const LoginUser = createAsyncThunk(
   async (user, thunkAPI) => {
     try {
       const response = await axios.post(
-        import.meta.env.BACKEND_URL + "/login",
+        import.meta.env.VITE_APP_BACKEND_URL + "/login",
         {
           email: user.email,
           password: user.password,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const message = error.response.data.message;
+        return thunkAPI.rejectWithValue({ message });
+      }
+    }
+  }
+);
+
+export const RegisterUser = createAsyncThunk(
+  "user/RegisterUser",
+  async (user, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        import.meta.env.VITE_APP_BACKEND_URL + "/register",
+        {
+          name: user.name,
+          email: user.email,
+          password: user.password,
+          confPassword: user.confirm_password,
         }
       );
       return response.data;
@@ -64,6 +87,21 @@ export const authSlice = createSlice({
       state.user = action.payload;
     });
     builder.addCase(LoginUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+    });
+
+    // Register User
+    builder.addCase(RegisterUser.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(RegisterUser.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.user = action.payload;
+    });
+    builder.addCase(RegisterUser.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;

@@ -13,6 +13,10 @@ Content-Type: application/json
 GET http://localhost:5000/users
 
 ###
+# get all role
+GET http://localhost:5000/roles
+
+###
 # get user by id
 GET http://localhost:5000/user/7dc16302-76d0-4f93-8a86-eeb689943b24
 

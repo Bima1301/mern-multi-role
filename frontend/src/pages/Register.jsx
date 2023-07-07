@@ -8,32 +8,43 @@ import {
 } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import Logo from "../assets/logo.png";
-import { LoginUser, reset } from "../features/authSlice";
+import { RegisterUser, reset } from "../features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import DarkModeButton from "../components/DarkModeButton";
+import { BsDoorOpen } from "react-icons/bs";
 import Swal from "sweetalert2";
 
-const Login = () => {
-  const [login, setLogin] = useState({
+const Register = () => {
+  const [register, setRegister] = useState({
+    name: "",
     email: "",
     password: "",
+    confirm_password: "",
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, isError, isSuccess, isLoading, message } = useSelector(
+  const { isError, isSuccess, isLoading, message } = useSelector(
     (state) => state.auth
   );
   useEffect(() => {
-    if (user || isSuccess) {
-      navigate("/dashboard");
+    if (isSuccess) {
+      Swal.fire({
+        position: "top-right",
+        icon: "success",
+        title: "Register Success",
+        text: "You can login now",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/dashboard/login");
     }
     dispatch(reset());
-  }, [user, isSuccess, dispatch, navigate]);
+  }, [isSuccess, dispatch, navigate]);
 
   const handleAuth = (e) => {
     e.preventDefault();
-    dispatch(LoginUser(login));
+    dispatch(RegisterUser(register));
   };
   const { message: errorMessage } = message;
   return (
@@ -51,25 +62,6 @@ const Login = () => {
             <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
               VI Apps
             </span>
-          </div>
-          <button
-            onClick={() => {
-              window.location.href =
-                import.meta.env.VITE_APP_BACKEND_URL + "/auth/google";
-            }}
-            className="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200 duration-100 dark:text-white dark:bg-gray-600 dark:hover:bg-gray-500"
-          >
-            <span className="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500 dark:text-white ">
-              <i className="fab fa-google"></i>
-            </span>
-            <span>Login with Google</span>
-          </button>
-          <div className="relative mt-10 h-px bg-gray-300 dark:bg-gray-600">
-            <div className="absolute left-0 top-0 flex justify-center w-full -mt-2">
-              <span className="bg-white dark:bg-gray-800 px-4 text-xs text-gray-500 uppercase dark:text-white">
-                Or Login With Email
-              </span>
-            </div>
           </div>
           <div className="mt-10">
             <form onSubmit={handleAuth}>
@@ -124,6 +116,47 @@ const Login = () => {
                   htmlFor="email"
                   className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600 dark:text-white"
                 >
+                  Name:
+                </label>
+                <div className="relative">
+                  <div className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
+                    {/* //svg name */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="icon icon-tabler icon-tabler-user"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="#a0aec0"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                      <path d="M6 20a20 20 0 0 1 12 0"></path>
+                    </svg>
+                  </div>
+
+                  <input
+                    id="name"
+                    type="text"
+                    onChange={(e) =>
+                      setRegister({ ...register, name: e.target.value })
+                    }
+                    value={register.name}
+                    name="name"
+                    className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400 dark:bg-gray-600 dark:text-white dark:placeholder-gray-300 dark:border-transparent"
+                    placeholder="Your Name"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col mb-6">
+                <label
+                  htmlFor="email"
+                  className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600 dark:text-white"
+                >
                   E-Mail Address:
                 </label>
                 <div className="relative">
@@ -145,9 +178,9 @@ const Login = () => {
                     id="email"
                     type="email"
                     onChange={(e) =>
-                      setLogin({ ...login, email: e.target.value })
+                      setRegister({ ...register, email: e.target.value })
                     }
-                    value={login.email}
+                    value={register.email}
                     name="email"
                     className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400 dark:bg-gray-600 dark:text-white dark:placeholder-gray-300 dark:border-transparent"
                     placeholder="E-Mail Address"
@@ -182,24 +215,54 @@ const Login = () => {
                     id="password"
                     type="password"
                     onChange={(e) =>
-                      setLogin({ ...login, password: e.target.value })
+                      setRegister({ ...register, password: e.target.value })
                     }
-                    value={login.password}
+                    value={register.password}
                     name="password"
                     className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400 dark:bg-gray-600 dark:text-white dark:placeholder-gray-300 dark:border-transparent"
                     placeholder="Password"
                   />
                 </div>
               </div>
+              <div className="flex flex-col mb-6">
+                <label
+                  htmlFor="confirm_password"
+                  className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600 dark:text-white"
+                >
+                  Confirm Password:
+                </label>
+                <div className="relative">
+                  <div className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
+                    <svg
+                      className="h-6 w-6"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                      <path d="M7 15v-6l2 2l2 -2v6"></path>
+                      <path d="M14 13l2 2l2 -2m-2 2v-6"></path>
+                    </svg>
+                  </div>
 
-              <div className="flex items-center mb-6 -mt-4">
-                <div className="flex ml-auto">
-                  <a
-                    href="#"
-                    className="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700 dark:text-blue-200"
-                  >
-                    Forgot Your Password?
-                  </a>
+                  <input
+                    id="confirm_password"
+                    type="confirm_password"
+                    onChange={(e) =>
+                      setRegister({
+                        ...register,
+                        confirm_password: e.target.value,
+                      })
+                    }
+                    value={register.confirm_password}
+                    name="confirm_password"
+                    className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400 dark:bg-gray-600 dark:text-white dark:placeholder-gray-300 dark:border-transparent"
+                    placeholder="Confirm Password"
+                  />
                 </div>
               </div>
 
@@ -209,7 +272,7 @@ const Login = () => {
                   className="flex items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-600 hover:bg-blue-700 rounded py-2 w-full transition duration-150 ease-in"
                   disabled={isLoading}
                 >
-                  <span className="mr-2 uppercase">Login</span>
+                  <span className="mr-2 uppercase">Register</span>
                   <span>
                     {isLoading ? (
                       <Spinner color={"gray"} />
@@ -233,23 +296,13 @@ const Login = () => {
           </div>
           <div className="flex justify-center items-center mt-6">
             <NavLink
-              to={"/dashboard/register"}
+              to={"/dashboard/login"}
               className="inline-flex items-center font-bold text-blue-500 hover:text-blue-700 text-xs text-center"
             >
               <span>
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                </svg>
+                <BsDoorOpen className="scale-150" />
               </span>
-              <span className="ml-2">You don't have an account?</span>
+              <span className="ml-2">Already have an account?, Login here</span>
             </NavLink>
           </div>
         </div>
@@ -258,4 +311,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

@@ -1,15 +1,44 @@
-import User from "../models/UserModel.js";
 import argon2 from "argon2";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 export const getUser = async (req, res) => {
+  const { page, size } = req.query;
+  const currentPage = page ? +page : 1;
+  const currentSize = size ? +size : 10;
+  const offset = (currentPage - 1) * currentSize;
+  const totalPages = Math.ceil((await prisma.user.count()) / currentSize);
+
   try {
     const response = await prisma.user.findMany({
+      skip: offset,
+      take: currentSize,
       select: {
         uuid: true,
         name: true,
         email: true,
         role: true,
+      },
+      orderBy: {
+        id: "asc",
+      },
+    });
+    const meta = {
+      currentPage: currentPage,
+      currentSize: currentSize,
+      totalItems: response.length,
+      totalPages: totalPages,
+    };
+    res.status(200).json({ user: response, meta: meta });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const getRole = async (req, res) => {
+  try {
+    const response = await prisma.role.findMany({
+      select: {
+        id: true,
+        name: true,
       },
       orderBy: {
         id: "asc",
@@ -39,17 +68,16 @@ export const getUserById = async (req, res) => {
   }
 };
 export const createUser = async (req, res) => {
-  const { name, email, password, confPassword, role } = req.body;
-  if (password !== confPassword) {
-    res.status(400).json({ message: "Password not match" });
-  }
+  const { name, email, password, roleId } = req.body;
   const hashPassword = await argon2.hash(password);
   try {
-    await User.create({
-      name: name,
-      email: email,
-      password: hashPassword,
-      role: role,
+    await prisma.user.create({
+      data: {
+        name: name,
+        email: email,
+        password: hashPassword,
+        roleId: parseInt(roleId),
+      },
     });
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
@@ -57,7 +85,11 @@ export const createUser = async (req, res) => {
   }
 };
 export const updateUser = async (req, res) => {
-  const user = await User.findOne({ where: { uuid: req.params.id } });
+  const user = await prisma.user.findUnique({
+    where: {
+      uuid: req.params.id,
+    },
+  });
   if (!user) res.status(404).json({ message: "User not found" });
   const { name, email, password, confPassword, role } = req.body;
   if (password !== confPassword)
@@ -70,19 +102,17 @@ export const updateUser = async (req, res) => {
     hashPassword = await argon2.hash(password);
   }
   try {
-    await User.update(
-      {
+    await prisma.user.update({
+      where: {
+        uuid: req.params.id,
+      },
+      data: {
         name: name,
         email: email,
         password: hashPassword,
-        role: role,
+        roleId: parseInt(role),
       },
-      {
-        where: {
-          uuid: req.params.id,
-        },
-      }
-    );
+    });
     res.status(200).json({ message: "Update successfully" });
   } catch (error) {
     res.status(400).json({ message: error.message });

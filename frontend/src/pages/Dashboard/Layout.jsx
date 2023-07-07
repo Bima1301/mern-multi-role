@@ -4,13 +4,13 @@ import Navigation from "../../components/Dashboard/Navigation";
 
 const Layout = ({ children }) => {
   return (
-    <React.Fragment>
+    <div className="flex flex-col justify-between min-h-screen dark:bg-slate-600 bg-slate-200 transition-background">
       <Navigation />
-      <main className="dark:bg-slate-600 bg-slate-200 transition-background">
+      <main className="">
         <div className="container min-h-full min-w-full py-4">{children}</div>
       </main>
       <FooterBottom />
-    </React.Fragment>
+    </div>
   );
 };
 

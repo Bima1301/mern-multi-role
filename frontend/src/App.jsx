@@ -10,6 +10,7 @@ import DashboardHome from "./pages/Dashboard/DashboardHome.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { PrivateRoute, AdminRoute } from "./middleware/PrivateRoute.jsx";
 import LoadingPage from "./pages/LoadingPage.jsx";
+import Register from "./pages/Register.jsx";
 
 function App() {
   // const dispatch = useDispatch();
@@ -21,7 +22,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/dasboard/login" element={<Login />} />
+          <Route path="/dashboard/login" element={<Login />} />
+          <Route path="/dashboard/register" element={<Register />} />
           <Route path="/dashboard" element={<PrivateRoute />}>
             <Route path="/dashboard" element={<DashboardHome />} />
           </Route>

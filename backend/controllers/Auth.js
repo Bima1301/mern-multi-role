@@ -1,4 +1,4 @@
-import User from "../models/UserModel.js";
+
 import argon2 from "argon2";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
@@ -41,7 +41,7 @@ export const Register = async (req, res) => {
         roleId: 2,
       },
     });
-    return res.status(201).json({ message: "Register successfully" });
+    res.status(201).json({ message: "Register successfully" });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
