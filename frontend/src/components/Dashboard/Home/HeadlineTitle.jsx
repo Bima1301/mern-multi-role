@@ -1,19 +1,26 @@
 import React, { useState } from "react";
 import { Button, Label, TextInput } from "flowbite-react";
 
-const HeadlineTitle = () => {
-  const [headline, setHeadline] = useState([
-    {
-      headline: "",
-    },
-  ]);
+const HeadlineTitle = ({ headlineData, setHomeSection, homeSection }) => {
+  const [headline, setHeadline] = useState(
+    headlineData.length > 0 ? headlineData : [{ headline: "" }]
+  );
   const addNewHeadline = () => {
     setHeadline([...headline, { headline: "" }]);
+
+    setHomeSection({
+      ...homeSection,
+      headline: [...headline, { headline: "" }],
+    });
   };
   const removeHeadlineField = (index) => {
     const values = [...headline];
     values.splice(index, 1);
     setHeadline(values);
+    setHomeSection((prevHomeSection) => ({
+      ...prevHomeSection,
+      headline: values,
+    }));
   };
   return (
     <div className="p-10 rounded-lg border dark:border-slate-400 my-5 md:w-1/3 w-full">
@@ -46,10 +53,17 @@ const HeadlineTitle = () => {
                 const values = [...headline];
                 values[index].headline = e.target.value;
                 setHeadline(values);
+                setHomeSection({
+                  ...homeSection,
+                  headline: {
+                    ...homeSection.headline,
+                    [index]: { headline: e.target.value },
+                  },
+                });
               }}
               placeholder="Ex. : Web developer , UX designer"
               required
-              type="email"
+              type="text"
             />
           </div>
         );

@@ -15,7 +15,6 @@ const ListUser = () => {
     return res.data;
   };
   const { data, error } = useSWR("users", fetcher);
-  console.log("data", data);
   if (!data) return <LoadingPage />;
   const handlePageChange = (page) => {
     mutate(

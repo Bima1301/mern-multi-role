@@ -1,0 +1,26 @@
+# get home data
+GET http://localhost:5000/dashboard/home
+
+### 
+# create new home
+POST http://localhost:5000/dashboard/home
+Content-Type: application/json
+
+{
+  "displayName": "Home 1",
+  "description": "INI DESKRIPSI",
+  "contact": "https://chat.openai.com/",
+  "headline": ["Web Developer", "Front End Developer"]
+}
+
+### 
+# update home
+PATCH http://localhost:5000/dashboard/home/1
+Content-Type: application/json
+
+{
+  "displayName": "Home 1 update asdasd",
+  "description": "INI DESKRIPSI",
+  "contact": "https://chat.openai.com/",
+  "headline": ["Front End Developer asdasd", "mobile asdasd developer"]
+}
