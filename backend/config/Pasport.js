@@ -16,9 +16,9 @@ passport.deserializeUser(async (id, done) => {
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID, // Ganti dengan ID klien Anda
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET, // Ganti dengan rahasia klien Anda
-      callbackURL: "http://localhost:5000/auth/google/callback", // Ganti dengan URI pengalihan OAuth Anda
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:5000/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       const email = profile.emails[0].value;
@@ -26,12 +26,10 @@ passport.use(
       if (user) {
         done(null, user);
       } else {
-        // Buat user baru jika belum ada
         const newUser = await prisma.user.create({
           data: {
             name: profile.displayName,
             email,
-            // Setel password secara acak atau berdasarkan preferensi Anda
             password: Math.random().toString(36).slice(-8),
             roleId: 2,
           },

@@ -5,23 +5,27 @@ const HeadlineTitle = ({ headlineData, setHomeSection, homeSection }) => {
   const [headline, setHeadline] = useState(
     headlineData.length > 0 ? headlineData : [{ headline: "" }]
   );
+
   const addNewHeadline = () => {
     setHeadline([...headline, { headline: "" }]);
-
-    setHomeSection({
-      ...homeSection,
-      headline: [...headline, { headline: "" }],
-    });
   };
+
   const removeHeadlineField = (index) => {
     const values = [...headline];
     values.splice(index, 1);
+    setHeadline(values);
+  };
+
+  const updateHeadline = (index, value) => {
+    const values = [...headline];
+    values[index].headline = value;
     setHeadline(values);
     setHomeSection((prevHomeSection) => ({
       ...prevHomeSection,
       headline: values,
     }));
   };
+
   return (
     <div className="p-10 rounded-lg border dark:border-slate-400 my-5 md:w-1/3 w-full">
       <p className="text-2xl font-bold dark:text-white mb-5">
@@ -32,7 +36,7 @@ const HeadlineTitle = ({ headlineData, setHomeSection, homeSection }) => {
           <div className="mb-3" key={index}>
             <div className="flex flex-row justify-between mb-2">
               <div className="block">
-                <Label htmlFor="email1" value="Headline" />
+                <Label htmlFor={`headline${index}`} value="Headline" />
               </div>
               {headline.length > 1 && (
                 <button
@@ -46,21 +50,10 @@ const HeadlineTitle = ({ headlineData, setHomeSection, homeSection }) => {
             </div>
             <TextInput
               className="transition-background"
-              id="headline"
-              name="headline"
+              id={`headline${index}`}
+              name={`headline${index}`}
               value={item.headline}
-              onChange={(e) => {
-                const values = [...headline];
-                values[index].headline = e.target.value;
-                setHeadline(values);
-                setHomeSection({
-                  ...homeSection,
-                  headline: {
-                    ...homeSection.headline,
-                    [index]: { headline: e.target.value },
-                  },
-                });
-              }}
+              onChange={(e) => updateHeadline(index, e.target.value)}
               placeholder="Ex. : Web developer , UX designer"
               required
               type="text"
