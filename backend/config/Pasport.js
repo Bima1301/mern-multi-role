@@ -21,20 +21,24 @@ passport.use(
       callbackURL: "http://localhost:5000/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-      const email = profile.emails[0].value;
-      const user = await prisma.user.findUnique({ where: { email } });
-      if (user) {
-        done(null, user);
-      } else {
-        const newUser = await prisma.user.create({
-          data: {
-            name: profile.displayName,
-            email,
-            password: Math.random().toString(36).slice(-8),
-            roleId: 2,
-          },
-        });
-        done(null, newUser);
+      try {
+        const email = profile.emails[0].value;
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (user) {
+          done(null, user);
+        } else {
+          const newUser = await prisma.user.create({
+            data: {
+              name: profile.displayName,
+              email,
+              password: Math.random().toString(36).slice(-8),
+              roleId: 2,
+            },
+          });
+          done(null, newUser);
+        }
+      } catch (error) {
+        done(error); // Pass the error to Passport to handle
       }
     }
   )

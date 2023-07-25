@@ -1,6 +1,27 @@
 import argon2 from "argon2";
 import { PrismaClient } from "@prisma/client";
+import passport from "../config/Pasport.js";
 const prisma = new PrismaClient();
+
+// Fungsi untuk penanganan masuk menggunakan Google
+export const loginWithGoogle = (req, res, next) => {
+  passport.authenticate("google", (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.status(401).json({ message: "Authentication failed." });
+    }
+    req.login(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      // Di sini sesi pengguna telah disimpan, Anda dapat memberikan respon yang sesuai, misalnya:
+      req.session.userId = user.uuid;
+      next();
+    });
+  })(req, res, next);
+};
 
 export const Login = async (req, res) => {
   const user = await prisma.user.findUnique({
@@ -25,6 +46,7 @@ export const Login = async (req, res) => {
     role,
   });
 };
+
 export const Register = async (req, res) => {
   const { name, email, password, confPassword } = req.body;
   if (password !== confPassword) {

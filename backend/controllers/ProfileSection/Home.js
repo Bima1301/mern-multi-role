@@ -38,7 +38,6 @@ export const createHomeSection = async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ message: "Please login first" });
   }
-  console.log("req.body", req.body);
   const { displayName, description, headline, contact } = req.body;
   if (!displayName || !description || !headline || !contact) {
     return res.status(400).json({ message: "Please fill all the fields" });
