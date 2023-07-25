@@ -3,7 +3,6 @@ import { Transition } from "@headlessui/react";
 
 import Sidebar from "../../components/Dashboard/Sidebar";
 import Topbar from "../../components/Dashboard/Topbar";
-import FooterBottom from "../../components/Dashboard/FooterBottom";
 
 export default function Layout({ children }) {
   const [showNav, setShowNav] = useState(true);

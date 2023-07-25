@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Label, TextInput } from "flowbite-react";
 
 const HeadlineTitle = ({ headlineData, setHomeSection, homeSection }) => {
   const [headline, setHeadline] = useState(
     headlineData.length > 0 ? headlineData : [{ headline: "" }]
   );
-
+  useEffect(() => {
+    if (headlineData.length > 0) {
+      setHeadline(headlineData);
+    } else {
+      setHeadline([{ headline: "" }]);
+    }
+  }, [headlineData]);
   const addNewHeadline = () => {
     setHeadline([...headline, { headline: "" }]);
   };
@@ -14,6 +20,10 @@ const HeadlineTitle = ({ headlineData, setHomeSection, homeSection }) => {
     const values = [...headline];
     values.splice(index, 1);
     setHeadline(values);
+    setHomeSection((prevHomeSection) => ({
+      ...prevHomeSection,
+      headline: values,
+    }));
   };
 
   const updateHeadline = (index, value) => {

@@ -8,6 +8,7 @@ import { Menu, Transition, Popover } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import DarkModeButton from "../DarkModeButton";
+import { LogOut, reset } from "../../features/authSlice";
 
 const Topbar = ({ showNav, setShowNav }) => {
   const dispatch = useDispatch();
