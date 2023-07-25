@@ -38,10 +38,14 @@ export const createHomeSection = async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ message: "Please login first" });
   }
+
   const { displayName, description, headline, contact } = req.body;
   if (!displayName || !description || !headline || !contact) {
     return res.status(400).json({ message: "Please fill all the fields" });
   }
+
+  const headlineArray = Array.isArray(headline) ? headline : [headline];
+
   try {
     const response = await prisma.home.create({
       data: {
@@ -49,11 +53,7 @@ export const createHomeSection = async (req, res) => {
         description,
         contact,
         headline: {
-          create: headline.map((item) => {
-            return {
-              headline: item,
-            };
-          }),
+          create: headlineArray.map((item) => ({ headline: item.headline })),
         },
         user: {
           connect: {
